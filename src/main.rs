@@ -1,11 +1,9 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-use serde::{Deserialize, Serialize};
+use actix_web::{App, HttpServer};
 
+use crate::routes::home;
+pub mod models;
+pub mod routes;
 
-#[get("/")]
-async fn home() -> impl Responder {
-    HttpResponse::Ok().body("Welcome to Actix Web Server 🚀")
-}
 
 
 #[actix_web::main]
@@ -15,6 +13,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(home)
+            .service(routes::ping)
+            .service(routes::test)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
